@@ -1,7 +1,7 @@
 Source: dh-venv
 Section: devel
 Priority: extra
-Maintainer: Guilhem Lettron <guilhem@lettron.Fr>
+Maintainer: Guilhem Lettron <guilhem@lettron.fr>
 Build-Depends: debhelper (>= 8.0.0), libmodule-install-perl
 Standards-Version: 3.9.4
 Vcs-Git: git@github.com:guilhem/dh-venv.git
