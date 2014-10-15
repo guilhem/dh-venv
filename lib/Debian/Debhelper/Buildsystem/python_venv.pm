@@ -54,6 +54,7 @@ sub install {
 		while ( <> ) {
 			# Fix shebang and any local path
 			s[$builddir][$dest_final]g;
+			print;
 		}
 	}
 }
