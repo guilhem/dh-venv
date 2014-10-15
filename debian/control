@@ -1,0 +1,23 @@
+Source: dh-venv
+Section: devel
+Priority: extra
+Maintainer: Guilhem Lettron <guilhem@lettron.Fr>
+Build-Depends: debhelper (>= 8.0.0), libmodule-install-perl
+Standards-Version: 3.9.4
+Vcs-Git: git@github.com:guilhem/dh-venv.git
+Vcs-Browser: https://github.com/guilhem/dh-venv
+
+Package: dh-venv
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends},
+         debhelper,
+         libparse-debcontrol-perl,
+         libfile-slurp-perl,
+         dpkg (>= 1.16.2),
+         virtualenv | python-virtualenv (>= 1.7)
+Description: debhelper add-on for packaging software written in Python via venv/virtualenv
+ dh-golang provides a debhelper sequence addon named 'python-venv', a buildsystem
+ module named 'python_venv' and a command called dh_venv.
+ .
+ The golang debhelper buildsystem is designed to make packaging programs
+ written in Python very simple.

@@ -1,0 +1,5 @@
+dh-venv (0.1.0) UNRELEASED; urgency=medium
+
+  * Initial release.
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Wed, 15 Oct 2014 15:09:31 +0200
