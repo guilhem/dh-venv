@@ -34,7 +34,7 @@ Some global variables can be used to customize / extend `dh-venv`:
 
 | Varible | Action  | Format | Default Value  |
 | --------|:-------:|:------:| --------------:|
-| `DH_PKG` | Virtualenv name | single_word | package source name |
+| `DH_VENV_PKG` | Virtualenv name | single_word | package source name |
 | `DH_REQUIREMENT_FILE` | requirement file to install | single_word | `requirements.txt` |
 | `DH_PIP_INSTALL` | options to pass to `pip install` | value:semicolon:separated | |
 | `DH_PIP_INSTALL_REQUIREMENT` | options to pass to `pip install --requirements` | value:semicolon:separated | `DH_PIP_INSTALL` |
