@@ -1,7 +1,7 @@
 package Debian::Debhelper::Buildsystem::python_venv;
 
 use strict;
-use Debian::Debhelper::Dh_Lib qw(sourcepackage);
+use Debian::Debhelper::Dh_Lib qw(sourcepackage doit basename);
 use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE @DH_PIP_INSTALL @DH_PIP_INSTALL_REQUIREMENT @DH_VENV_CREATE);
 use base 'Debian::Debhelper::Buildsystem';
@@ -48,8 +48,8 @@ sub install {
 	my $dest_final = "/usr/share/python/$pkg";
 	my $dest_src = $destdir . $dest_final;
 
-	$this->doit_in_builddir('mkdir', '-p', $dest_src);
-	$this->doit_in_sourcedir('cp', '--recursive', '--no-target-directory', $builddir, $dest_src);
+	doit('mkdir', '-p', $dest_src);
+	doit('cp', '--recursive', '--no-target-directory', $builddir, $dest_src);
 
 	my $dest_bin_dir = "$dest_src/bin";
 	{
@@ -63,8 +63,14 @@ sub install {
 			print;
 		}
 	}
+	my $dest_local_dir = "$dest_src/local";
+	$this->_cd($dest_local_dir);
+	foreach my $file ( grep { -l $_ } glob("$dest_local_dir/*")) {
+		my $bfile = basename($file);
+		doit('ln', '--symbolic', '--force', "../$bfile");
+	}
+	$this->_cd($this->_rel2rel($this->{cwd}, $this->get_sourcedir()));
 }
-
 
 sub clean {
 	my $this=shift;
