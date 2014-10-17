@@ -11,7 +11,6 @@ use Env qw(DH_REQUIREMENT_FILE
 use base 'Debian::Debhelper::Buildsystem';
 
 push @DH_PIP_INSTALL, '--no-compile';
-push @DH_VENV_CREATE, '--no-site-packages';
 @DH_PIP_INSTALL_REQUIREMENT = @DH_PIP_INSTALL unless scalar(@DH_PIP_INSTALL_REQUIREMENT) == 0 ;
 $DH_REQUIREMENT_FILE = 'requirements.txt' unless $DH_REQUIREMENT_FILE;
 $DH_VENV_ROOT_PATH = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
