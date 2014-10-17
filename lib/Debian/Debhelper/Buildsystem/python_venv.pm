@@ -3,12 +3,13 @@ package Debian::Debhelper::Buildsystem::python_venv;
 use strict;
 use Debian::Debhelper::Dh_Lib qw(sourcepackage);
 use Cwd qw( abs_path );
-use Env qw(@DH_PIP_INSTALL @DH_PIP_INSTALL_REQUIREMENT @DH_VENV_CREATE);
+use Env qw(DH_REQUIREMENT_FILE @DH_PIP_INSTALL @DH_PIP_INSTALL_REQUIREMENT @DH_VENV_CREATE);
 use base 'Debian::Debhelper::Buildsystem';
 
 push @DH_PIP_INSTALL, '--no-compile';
 push @DH_VENV_CREATE, '--no-site-packages';
-@DH_PIP_INSTALL_REQUIREMENT = @DH_PIP_INSTALL unless defined(@DH_PIP_INSTALL_REQUIREMENT);
+@DH_PIP_INSTALL_REQUIREMENT = @DH_PIP_INSTALL unless scalar(@DH_PIP_INSTALL_REQUIREMENT) == 0 ;
+$DH_REQUIREMENT_FILE = 'requirements.txt' unless $DH_REQUIREMENT_FILE;
 
 sub DESCRIPTION {
 	"Python venv (setup.py)"
@@ -30,8 +31,8 @@ sub build {
 	my $this=shift;
 	$this->doit_in_sourcedir('virtualenv', @DH_VENV_CREATE, $this->get_builddir());
         $ENV{PATH} = $this->get_builddir() . '/bin' . ":$ENV{PATH}";
-	if (-e $this->get_sourcepath("requirements.txt")) {
-		$this->doit_in_sourcedir('pip', 'install', @DH_PIP_INSTALL_REQUIREMENT, '--requirement', 'requirements.txt');
+	if (-e $this->get_sourcepath($DH_REQUIREMENT_FILE)) {
+		$this->doit_in_sourcedir('pip', 'install', @DH_PIP_INSTALL_REQUIREMENT, '--requirement', $DH_REQUIREMENT_FILE);
 	}
 	$this->doit_in_sourcedir('pip', 'install', @DH_PIP_INSTALL, '.');
 }
