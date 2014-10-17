@@ -39,3 +39,4 @@ Some global variables can be used to customize / extend `dh-venv`:
 | `DH_PIP_INSTALL` | options to pass to `pip install` | value:semicolon:separated | --no-compile |
 | `DH_PIP_INSTALL_REQUIREMENT` | options to pass to `pip install --requirements` | value:semicolon:separated | DH_PIP_INSTALL |
 | `DH_VENV_CREATE` | options to pass at creation of `virtualenv` | value:semicolon:separated | --no-site-packages |
+| `DH_VENV_ROOT_PATH` | Root path for destination application | single_word | /usr/share/python |

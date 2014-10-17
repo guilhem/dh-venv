@@ -3,13 +3,18 @@ package Debian::Debhelper::Buildsystem::python_venv;
 use strict;
 use Debian::Debhelper::Dh_Lib qw(sourcepackage doit basename);
 use Cwd qw( abs_path );
-use Env qw(DH_REQUIREMENT_FILE @DH_PIP_INSTALL @DH_PIP_INSTALL_REQUIREMENT @DH_VENV_CREATE);
+use Env qw(DH_REQUIREMENT_FILE
+					@DH_PIP_INSTALL
+					@DH_PIP_INSTALL_REQUIREMENT
+					@DH_VENV_CREATE
+					DH_VENV_ROOT_PATH);
 use base 'Debian::Debhelper::Buildsystem';
 
 push @DH_PIP_INSTALL, '--no-compile';
 push @DH_VENV_CREATE, '--no-site-packages';
 @DH_PIP_INSTALL_REQUIREMENT = @DH_PIP_INSTALL unless scalar(@DH_PIP_INSTALL_REQUIREMENT) == 0 ;
 $DH_REQUIREMENT_FILE = 'requirements.txt' unless $DH_REQUIREMENT_FILE;
+$DH_VENV_ROOT_PATH = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
 
 sub DESCRIPTION {
 	"Python venv (setup.py)"
@@ -45,7 +50,7 @@ sub install {
 
 	my $pkg = defined $ENV{DH_PKG} ? $ENV{DH_PKG} : sourcepackage();
 
-	my $dest_final = "/usr/share/python/$pkg";
+	my $dest_final = "$DH_VENV_ROOT_PATH/$pkg";
 	my $dest_src = $destdir . $dest_final;
 
 	doit('mkdir', '-p', $dest_src);
