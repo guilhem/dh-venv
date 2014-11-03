@@ -1,5 +1,6 @@
-dh-venv (0.1.0) UNRELEASED; urgency=medium
+dh-venv (0.1.0) unstable; urgency=medium
 
+  [ Guilhem Lettron ]
   * Initial release.
 
- -- Guilhem Lettron <guilhem@lettron.fr>  Wed, 15 Oct 2014 15:09:31 +0200
+ -- Guilhem Lettron <guilhem@lettton.fr>  Mon, 03 Nov 2014 13:26:33 +0100
