@@ -1,8 +1,9 @@
-dh-venv (0.1.1-0) UNRELEASED; urgency=medium
+dh-venv (0.2.0) UNRELEASED; urgency=medium
 
-  * 
+  [ Guilhem Lettron ]
+  * change separation from `:` to `,`
 
- -- Guilhem Lettron <guilhem@lettron.fr>  Mon, 03 Nov 2014 13:27:40 +0100
+ -- Guilhem Lettron <guilhem@lettron.fr>  Wed, 05 Nov 2014 18:04:23 +0100
 
 dh-venv (0.1.0) unstable; urgency=medium
 

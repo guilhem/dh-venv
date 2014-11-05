@@ -4,12 +4,16 @@ use strict;
 use Debian::Debhelper::Dh_Lib qw(sourcepackage doit basename);
 use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE
-					@DH_PIP_INSTALL
-					@DH_PIP_INSTALL_REQUIREMENT
-					@DH_VENV_CREATE
+					DH_PIP_INSTALL
+					DH_PIP_INSTALL_REQUIREMENT
+					DH_VENV_CREATE
 					DH_VENV_ROOT_PATH
 					DH_VENV_PKG);
 use base 'Debian::Debhelper::Buildsystem';
+
+my @DH_PIP_INSTALL = split(/,/, $DH_PIP_INSTALL);
+my @DH_PIP_INSTALL_REQUIREMENT = split(/,/, $DH_PIP_INSTALL_REQUIREMENT);
+my @DH_VENV_CREATE = split(/,/, $DH_VENV_CREATE);
 
 if (defined $ENV{DH_VERBOSE} && $ENV{DH_VERBOSE} ne "") {
 	unshift @DH_PIP_INSTALL, '--verbose';
