@@ -22,7 +22,6 @@ if (defined $ENV{DH_VERBOSE} && $ENV{DH_VERBOSE} ne "") {
 	unshift @DH_PIP_INSTALL, '--quiet';
 	unshift @DH_VENV_CREATE, '--quiet';
 }
-unshift @DH_PIP_INSTALL, '--no-compile';
 @DH_PIP_INSTALL_REQUIREMENT = @DH_PIP_INSTALL unless scalar(@DH_PIP_INSTALL_REQUIREMENT) == 0 ;
 $DH_REQUIREMENT_FILE = 'requirements.txt' unless $DH_REQUIREMENT_FILE;
 $DH_VENV_ROOT_PATH = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
