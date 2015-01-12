@@ -11,7 +11,8 @@ Package: dh-venv
 Architecture: all
 Depends: ${perl:Depends}, ${misc:Depends},
          debhelper,
-         virtualenv | python-virtualenv (>= 1.7)
+         virtualenv | python-virtualenv (>= 1.7),
+         libfile-which-perl
 Description: debhelper add-on for packaging software written in Python via venv/virtualenv
  dh-golang provides a debhelper sequence addon named 'python-venv', a buildsystem
  module named 'python_venv' and a command called dh_venv.
