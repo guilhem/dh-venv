@@ -5,28 +5,23 @@ use Debian::Debhelper::Dh_Lib qw(sourcepackage doit basename);
 use File::Which;
 use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE
-  DH_PIP_INSTALL
-  DH_PIP_INSTALL_REQUIREMENT
   DH_VENV_CREATE
   DH_VENV_ROOT_PATH
   DH_VENV_PKG
   DH_VENV_INTERPRETER);
 use base 'Debian::Debhelper::Buildsystem';
 
-my @DH_PIP_INSTALL             = split( /,/, $DH_PIP_INSTALL );
-my @DH_PIP_INSTALL_REQUIREMENT = split( /,/, $DH_PIP_INSTALL_REQUIREMENT );
 my @DH_VENV_CREATE             = split( /,/, $DH_VENV_CREATE );
 
 if ( defined $ENV{DH_VERBOSE} && $ENV{DH_VERBOSE} ne "" ) {
-    unshift @DH_PIP_INSTALL, '--verbose';
+    $ENV{PIP_VERBOSE} = 'true';
     unshift @DH_VENV_CREATE, '--verbose';
 }
 else {
-    unshift @DH_PIP_INSTALL, '--quiet';
+    $ENV{PIP_QUIET} = 'true';
     unshift @DH_VENV_CREATE, '--quiet';
 }
-@DH_PIP_INSTALL_REQUIREMENT = @DH_PIP_INSTALL
-  unless scalar(@DH_PIP_INSTALL_REQUIREMENT) == 0;
+
 $DH_REQUIREMENT_FILE = 'requirements.txt'  unless $DH_REQUIREMENT_FILE;
 $DH_VENV_ROOT_PATH   = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
 $DH_VENV_PKG         = sourcepackage()     unless $DH_VENV_PKG;
@@ -68,10 +63,10 @@ sub build {
 
     if ( -e $this->get_sourcepath($DH_REQUIREMENT_FILE) ) {
         $this->doit_in_sourcedir( 'pip', 'install',
-            @DH_PIP_INSTALL_REQUIREMENT, '--requirement',
+            '--requirement',
             $DH_REQUIREMENT_FILE );
     }
-    $this->doit_in_sourcedir( 'pip', 'install', @DH_PIP_INSTALL, '.' );
+    $this->doit_in_sourcedir( 'pip', 'install', '.' );
 }
 
 sub install {
