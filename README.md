@@ -7,6 +7,21 @@ On the other side, dev love to use vendoring like [`virtualenv`](http://virtuale
 
 Unite them all!
 
+# Install
+
+## Ubuntu
+
+### Repository
+* [stable repository](https://launchpad.net/~dh-venv/+archive/ubuntu/stable):  
+`sudo add-apt-repository ppa:dh-venv/stable`
+* [daily build repository](https://launchpad.net/~dh-venv/+archive/ubuntu/daily):  
+`sudo add-apt-repository ppa:dh-venv/daily`
+
+### Package
+```
+sudo apt-get update; sudo apt-get install dh-venv
+```
+
 # Usage
 
 ## `rules`
