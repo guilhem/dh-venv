@@ -117,6 +117,17 @@ sub install {
         'python', ">= $python_major.$python_minor" );
     addsubstvar( $DH_VENV_PKG, "python:Depends",
         'python', "<< $python_major.${python_minor_plus}" );
+
+    # Exclude .pyc files
+    push @{ $dh{EXCLUDE} }, "*.pyc";
+
+    # Add compile scripts
+    if ( !$dh{NOSCRIPTS} ) {
+        autoscript( ${DH_VENV_PKG}, "postinst", "postinst-venv-compile",
+            "s/#PACKAGE#/${DH_VENV_PKG}/" );
+        autoscript( ${DH_VENV_PKG}, "prerm", "prerm-venv-clean",
+            "s/#PACKAGE#/${DH_VENV_PKG}/" );
+    }
 }
 
 sub clean {
