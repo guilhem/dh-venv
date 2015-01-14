@@ -1,7 +1,7 @@
 package Debian::Debhelper::Buildsystem::python_venv;
 
 use strict;
-use Debian::Debhelper::Dh_Lib qw(sourcepackage doit basename);
+use Debian::Debhelper::Dh_Lib qw(addsubstvar sourcepackage doit basename);
 use File::Which;
 use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE
@@ -11,7 +11,7 @@ use Env qw(DH_REQUIREMENT_FILE
   DH_VENV_INTERPRETER);
 use base 'Debian::Debhelper::Buildsystem';
 
-my @DH_VENV_CREATE             = split( /,/, $DH_VENV_CREATE );
+my @DH_VENV_CREATE = split( /,/, $DH_VENV_CREATE );
 
 if ( defined $ENV{DH_VERBOSE} && $ENV{DH_VERBOSE} ne "" ) {
     $ENV{PIP_VERBOSE} = 'true';
@@ -26,6 +26,8 @@ $DH_REQUIREMENT_FILE = 'requirements.txt'  unless $DH_REQUIREMENT_FILE;
 $DH_VENV_ROOT_PATH   = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
 $DH_VENV_PKG         = sourcepackage()     unless $DH_VENV_PKG;
 $DH_VENV_INTERPRETER = 'python'            unless $DH_VENV_INTERPRETER;
+
+my $python_path = which($DH_VENV_INTERPRETER);
 
 sub DESCRIPTION {
     "Python venv (setup.py)";
@@ -47,23 +49,12 @@ sub build {
     my $this     = shift;
     my $builddir = abs_path( $this->get_builddir() );
 
-    my $python_path = which($DH_VENV_INTERPRETER);
-    $this->doit_in_sourcedir( 'virtualenv', "--python=${DH_VENV_INTERPRETER}",
+    doit( 'virtualenv', "--python=${DH_VENV_INTERPRETER}",
         @DH_VENV_CREATE, $builddir );
     $ENV{PATH} = $builddir . '/bin' . ":$ENV{PATH}";
-    my $python_venv_path = which('python');
-
-    # Replace python to a wrapper script
-    unlink $python_venv_path;
-    open( my $fh, '>', $python_venv_path )
-      or die "Could not open file '$python_venv_path' $!";
-    print $fh "#!/bin/sh\nPYTHONHOME=${builddir} ${python_path} \$*\n";
-    chmod 0755, $fh;
-    close $fh;
 
     if ( -e $this->get_sourcepath($DH_REQUIREMENT_FILE) ) {
-        $this->doit_in_sourcedir( 'pip', 'install',
-            '--requirement',
+        $this->doit_in_sourcedir( 'pip', 'install', '--requirement',
             $DH_REQUIREMENT_FILE );
     }
     $this->doit_in_sourcedir( 'pip', 'install', '.' );
@@ -81,6 +72,7 @@ sub install {
     doit( 'mkdir', '-p', $dest_src );
     doit( 'cp', '--recursive', '--no-target-directory', $builddir, $dest_src );
 
+    # Fix shebangs
     my $dest_bin_dir = "$dest_src/bin";
     {
         # Edit inplace
@@ -95,6 +87,8 @@ sub install {
             print;
         }
     }
+
+    # Fix "local" links. make it relative
     my $dest_local_dir = "$dest_src/local";
     $this->_cd($dest_local_dir);
     foreach my $file ( grep { -l $_ } glob("$dest_local_dir/*") ) {
@@ -102,6 +96,27 @@ sub install {
         doit( 'ln', '--symbolic', '--force', "../$bfile" );
     }
     $this->_cd( $this->_rel2rel( $this->{cwd}, $this->get_sourcedir() ) );
+
+    my $python_venv_path = "${dest_bin_dir}/python";
+
+    # Replace python to a wrapper script
+    unlink $python_venv_path;
+    open( my $fh, '>', $python_venv_path )
+      or die "Could not open file '$python_venv_path' $!";
+    print $fh "#!/bin/sh\nPYTHONHOME=${dest_final} ${python_path} \$*\n";
+    chmod 0755, $fh;
+    close $fh;
+
+    # Provide ${python:Depends} varaible substitution
+    my $python_major =
+      `$python_path -c "import sys; print(sys.version_info[0])"`;
+    my $python_minor =
+      `$python_path -c "import sys; print(sys.version_info[1])"`;
+    my $python_minor_plus = $python_minor + 1;
+    addsubstvar( $DH_VENV_PKG, "python:Depends",
+        'python', ">= $python_major.$python_minor" );
+    addsubstvar( $DH_VENV_PKG, "python:Depends",
+        'python', "<< $python_major.${python_minor_plus}" );
 }
 
 sub clean {
