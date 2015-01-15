@@ -2,8 +2,6 @@ package Debian::Debhelper::Buildsystem::python_venv;
 
 use strict;
 use Debian::Debhelper::Dh_Lib;
-use File::Copy qw(copy);
-use File::Path qw(make_path);
 use File::Which qw(which);
 use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE
@@ -144,13 +142,13 @@ sub copy_recursively {
             symlink readlink($source), $destination; #my to = readlink($source);
         }
         elsif ( -d $source ) {
-            make_path($destination)
+            doit( 'mkdir', '-p', $destination )
               or die "mkdir '$destination' failed: $!"
               if not -e $destination;
             copy_recursively( $source, $destination, $regex );
         }
         else {
-            copy $source, $destination or die "copy failed: $!";
+            doit( 'cp', $source, $destination ) or die "copy failed: $!";
         }
     }
     closedir $dh;
