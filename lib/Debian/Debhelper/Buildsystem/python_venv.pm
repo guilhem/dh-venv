@@ -2,7 +2,9 @@ package Debian::Debhelper::Buildsystem::python_venv;
 
 use strict;
 use Debian::Debhelper::Dh_Lib;
-use File::Which;
+use File::Copy qw(copy);
+use File::Path qw(make_path);
+use File::Which qw(which);
 use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE
   DH_VENV_CREATE
@@ -69,8 +71,7 @@ sub install {
     my $dest_final = "$DH_VENV_ROOT_PATH/$DH_VENV_PKG";
     my $dest_src   = $destdir . $dest_final;
 
-    doit( 'mkdir', '-p', $dest_src );
-    doit( 'cp', '--recursive', '--no-target-directory', $builddir, $dest_src );
+    copy_recursively( $builddir, $dest_src, '.pyc$' );
 
     # Fix shebangs
     my $dest_bin_dir = "$dest_src/bin";
@@ -118,9 +119,6 @@ sub install {
     addsubstvar( $DH_VENV_PKG, "python:Depends",
         'python', "<< $python_major.${python_minor_plus}" );
 
-    # Exclude .pyc files
-    push @{ $dh{EXCLUDE} }, "*.pyc";
-
     # Add compile scripts
     if ( !$dh{NOSCRIPTS} ) {
         autoscript( ${DH_VENV_PKG}, "postinst", "postinst-venv-compile",
@@ -133,6 +131,30 @@ sub install {
 sub clean {
     my $this = shift;
     $this->rmdir_builddir();
+}
+
+sub copy_recursively {
+    my ( $from_dir, $to_dir, $regex ) = @_;
+    opendir my ($dh), $from_dir or die "Could not open dir '$from_dir': $!";
+    for my $entry ( readdir $dh ) {
+        next if ( $entry =~ /$regex/ || $entry eq '.' || $entry eq '..' );
+        my $source      = "$from_dir/$entry";
+        my $destination = "$to_dir/$entry";
+        if ( -l $source ) {
+            symlink readlink($source), $destination; #my to = readlink($source);
+        }
+        elsif ( -d $source ) {
+            make_path($destination)
+              or die "mkdir '$destination' failed: $!"
+              if not -e $destination;
+            copy_recursively( $source, $destination, $regex );
+        }
+        else {
+            copy $source, $destination or die "copy failed: $!";
+        }
+    }
+    closedir $dh;
+    return;
 }
 
 1
