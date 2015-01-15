@@ -1,6 +1,12 @@
-dh-venv (0.3.0) UNRELEASED; urgency=medium
+dh-venv (0.3.1) unstable; urgency=medium
 
-  * Look at git commits
+  * fix files flags
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Thu, 15 Jan 2015 17:45:18 +0100
+
+dh-venv (0.3.0) unstable; urgency=medium
+
+  * Look at git commits 
 
  -- Guilhem Lettron <guilhem@lettron.fr>  Thu, 15 Jan 2015 10:52:22 +0100
 
