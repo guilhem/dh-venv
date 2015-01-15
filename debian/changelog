@@ -1,3 +1,9 @@
+dh-venv (0.3.0) UNRELEASED; urgency=medium
+
+  * Look at git commits
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Thu, 15 Jan 2015 10:52:22 +0100
+
 dh-venv (0.2.0) unstable; urgency=medium
 
   [ Guilhem Lettron ]
