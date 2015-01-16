@@ -51,13 +51,12 @@ sub build {
 
     doit( 'virtualenv', "--python=${DH_VENV_INTERPRETER}",
         @DH_VENV_CREATE, $builddir );
-    $ENV{PATH} = $builddir . '/bin' . ":$ENV{PATH}";
 
     if ( -e $this->get_sourcepath($DH_REQUIREMENT_FILE) ) {
-        $this->doit_in_sourcedir( 'pip', 'install', '--requirement',
-            $DH_REQUIREMENT_FILE );
+        $this->doit_in_sourcedir( "${builddir}/bin/pip", 'install',
+            '--requirement', $DH_REQUIREMENT_FILE );
     }
-    $this->doit_in_sourcedir( 'pip', 'install', '.' );
+    $this->doit_in_sourcedir( "${builddir}/bin/pip", 'install', '.' );
 }
 
 sub install {
