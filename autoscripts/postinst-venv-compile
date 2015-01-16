@@ -1,4 +1,4 @@
 VENV_PATH=/usr/share/python/#PACKAGE#
 if [ -d ${VENV_PATH} ] && [ -x ${VENV_PATH}/bin/python ] ; then
-	${VENV_PATH}/bin/python -m compileall ${VENV_PATH}
+	${VENV_PATH}/bin/python -m compileall -q ${VENV_PATH}
 fi
