@@ -4,7 +4,7 @@ use strict;
 use Debian::Debhelper::Dh_Lib;
 use File::Which qw(which);
 use Cwd qw( abs_path );
-use Env qw(DH_REQUIREMENT_FILE
+use Env qw(DH_VENV_REQUIREMENT_FILE
   DH_VENV_CREATE
   DH_VENV_ROOT_PATH
   DH_VENV_NAME
@@ -23,7 +23,7 @@ else {
     unshift @DH_VENV_CREATE, '--quiet';
 }
 
-$DH_REQUIREMENT_FILE = 'requirements.txt'  unless $DH_REQUIREMENT_FILE;
+$DH_VENV_REQUIREMENT_FILE = 'requirements.txt' unless $DH_VENV_REQUIREMENT_FILE;
 $DH_VENV_ROOT_PATH   = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
 $DH_VENV_NAME        = sourcepackage()     unless $DH_VENV_NAME;
 $DH_VENV_PKG         = sourcepackage()     unless $DH_VENV_PKG;
@@ -54,9 +54,9 @@ sub build {
     doit( 'virtualenv', "--python=${DH_VENV_INTERPRETER}",
         @DH_VENV_CREATE, $builddir );
 
-    if ( -e $this->get_sourcepath($DH_REQUIREMENT_FILE) ) {
+    if ( -e $this->get_sourcepath($DH_VENV_REQUIREMENT_FILE) ) {
         $this->doit_in_sourcedir( "${builddir}/bin/pip", 'install',
-            '--requirement', $DH_REQUIREMENT_FILE );
+            '--requirement', $DH_VENV_REQUIREMENT_FILE );
     }
     $this->doit_in_sourcedir( "${builddir}/bin/pip", 'install', '.' );
 }
