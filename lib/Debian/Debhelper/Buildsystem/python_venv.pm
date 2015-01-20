@@ -7,6 +7,7 @@ use Cwd qw( abs_path );
 use Env qw(DH_REQUIREMENT_FILE
   DH_VENV_CREATE
   DH_VENV_ROOT_PATH
+  DH_VENV_NAME
   DH_VENV_PKG
   DH_VENV_INTERPRETER);
 use base 'Debian::Debhelper::Buildsystem';
@@ -24,6 +25,7 @@ else {
 
 $DH_REQUIREMENT_FILE = 'requirements.txt'  unless $DH_REQUIREMENT_FILE;
 $DH_VENV_ROOT_PATH   = '/usr/share/python' unless $DH_VENV_ROOT_PATH;
+$DH_VENV_NAME        = sourcepackage()     unless $DH_VENV_NAME;
 $DH_VENV_PKG         = sourcepackage()     unless $DH_VENV_PKG;
 $DH_VENV_INTERPRETER = 'python'            unless $DH_VENV_INTERPRETER;
 
@@ -65,7 +67,7 @@ sub install {
 
     my $builddir = abs_path( $this->get_buildpath() );
 
-    my $dest_final = "$DH_VENV_ROOT_PATH/$DH_VENV_PKG";
+    my $dest_final = "$DH_VENV_ROOT_PATH/$DH_VENV_NAME";
     my $dest_src   = $destdir . $dest_final;
 
     copy_recursively( $builddir, $dest_src, '.pyc$' );
