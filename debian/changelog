@@ -1,3 +1,10 @@
+dh-venv (0.4.0) UNRELEASED; urgency=medium
+
+  * Rename DH_REQUIREMENT_FILE to DH_VENV_REQUIREMENT_FILE
+  * Add DH_VENV_NAME
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Tue, 20 Jan 2015 17:50:07 +0100
+
 dh-venv (0.3.2) unstable; urgency=medium
 
   * Fix python path
