@@ -1,4 +1,4 @@
-dh-venv (0.4.0) UNRELEASED; urgency=medium
+dh-venv (0.4.0) unstable; urgency=medium
 
   * Rename DH_REQUIREMENT_FILE to DH_VENV_REQUIREMENT_FILE
   * Add DH_VENV_NAME
