@@ -103,7 +103,7 @@ sub install {
     unlink $python_venv_path;
     open( my $fh, '>', $python_venv_path )
       or die "Could not open file '$python_venv_path' $!";
-    print $fh "#!/bin/sh\nPYTHONHOME=${dest_final} ${python_path} \$*\n";
+    print $fh "#!/bin/sh\nPYTHONHOME=${dest_final} ${python_path} \"\$@\"\n";
     chmod 0755, $fh;
     close $fh;
 
