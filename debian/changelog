@@ -1,3 +1,9 @@
+dh-venv (0.4.1) unstable; urgency=medium
+
+  * Fix arg parse with spaces and ""
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Tue, 24 Feb 2015 16:19:25 +0100
+
 dh-venv (0.4.0) unstable; urgency=medium
 
   * Rename DH_REQUIREMENT_FILE to DH_VENV_REQUIREMENT_FILE
