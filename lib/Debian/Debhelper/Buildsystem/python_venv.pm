@@ -3,6 +3,7 @@ package Debian::Debhelper::Buildsystem::python_venv;
 use strict;
 use Debian::Debhelper::Dh_Lib;
 use File::Which qw(which);
+use Text::Template 'fill_in_file';
 use Cwd qw( abs_path );
 use Env qw(DH_VENV_REQUIREMENT_FILE
   DH_VENV_CREATE
@@ -103,7 +104,12 @@ sub install {
     unlink $python_venv_path;
     open( my $fh, '>', $python_venv_path )
       or die "Could not open file '$python_venv_path' $!";
-    print $fh "#!/bin/sh\nPYTHONHOME=${dest_final} ${python_path} \"\$@\"\n";
+    my %tmplvars = (python => $python_path,
+                    venv_dir => $dest_final);
+    my $result = fill_in_file('/usr/share/dh-venv/python.tmpl', HASH => \%tmplvars)
+      or die "Couldn't construct template: $Text::Template::ERROR";
+    if (defined $result) { print $fh $result }
+    else { die "Couldn't fill in template: $Text::Template::ERROR" }
     chmod 0755, $fh;
     close $fh;
 
