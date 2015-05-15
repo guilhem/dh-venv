@@ -1,4 +1,4 @@
-from ubuntu
+from ubuntu:12.04
 
 RUN apt-get update && apt-get install -y --force-yes python-software-properties && apt-get clean
 RUN add-apt-repository -y ppa:dh-venv/stable
