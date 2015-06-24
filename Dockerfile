@@ -7,4 +7,4 @@ RUN apt-get update && apt-get install -y --force-yes devscripts equivs debhelper
 VOLUME /code
 WORKDIR /code
 
-CMD mk-build-deps --install --tool "apt-get -y --force-yes" && debuild --no-tgz-check --no-lintian -us -uc && mkdir -p build && cp -f ../*.deb build/
+CMD apt-get update && mk-build-deps --install --tool "apt-get -y --force-yes" && debuild --no-tgz-check --no-lintian -us -uc && mkdir -p build && cp -f ../*.deb build/
