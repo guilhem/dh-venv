@@ -19,7 +19,7 @@ if len(sys.argv) > 1:
             sys.argv[1:] = _args
             _args = []
             __import__("runpy").run_module(
-                 _val, {}, "__main__", alter_sys=True)
+                 _val, \{\}, "__main__", alter_sys=True)
 
     if _args:
         sys.argv[:] = _args
