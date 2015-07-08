@@ -79,12 +79,15 @@ sub install {
         # Edit inplace
         local $^I = q{};
 
+        my $activate_this = "execfile('$dest_final/bin/activate_this.py', dict(__file__='$dest_final/bin/activate_this.py'))";
+
         # Find all files in final "bin" who are not binary
         local @ARGV = grep { -f $_ && -T $_ } glob("$dest_bin_dir/*");
         while (<>) {
 
             # Fix shebang and any local path
             s[$builddir][$dest_final]g;
+            s[^#!.*][#!$python_path\n$activate_this];
             print;
         }
     }
