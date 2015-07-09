@@ -122,9 +122,10 @@ sub install {
     my $python_minor =
       `$python_path -c "import sys; print(sys.version_info[1])"`;
     my $python_minor_plus = $python_minor + 1;
-    addsubstvar( $DH_VENV_PKG, "python:Depends",
+    my $install_dep = $python_major == 3 ? "python3:Depends" : "python:Depends";
+    addsubstvar( $DH_VENV_PKG, $install_dep,
         'python', ">= $python_major.$python_minor" );
-    addsubstvar( $DH_VENV_PKG, "python:Depends",
+    addsubstvar( $DH_VENV_PKG, $install_dep,
         'python', "<< $python_major.${python_minor_plus}" );
 
     # Add compile scripts
