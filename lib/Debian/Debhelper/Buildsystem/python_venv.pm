@@ -30,7 +30,7 @@ $DH_VENV_NAME        = sourcepackage()     unless $DH_VENV_NAME;
 $DH_VENV_PKG         = sourcepackage()     unless $DH_VENV_PKG;
 $DH_VENV_INTERPRETER = 'python'            unless $DH_VENV_INTERPRETER;
 
-my $python_path = which($DH_VENV_INTERPRETER);
+my $python_path = abs_path(which($DH_VENV_INTERPRETER));
 
 sub DESCRIPTION {
     "Python venv (setup.py)";
