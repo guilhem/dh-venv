@@ -1,3 +1,9 @@
+dh-venv (0.7.2) unstable; urgency=medium
+
+  * Fix python option in postinst
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Mon, 13 Jul 2015 11:57:37 +0200
+
 dh-venv (0.7.1) unstable; urgency=medium
 
   * Use virtualenv --relocatable
