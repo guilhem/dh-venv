@@ -1,4 +1,6 @@
 VENV_PATH=/usr/share/python/#PACKAGE#
 if [ -d ${VENV_PATH} ] && [ -x ${VENV_PATH}/bin/python ] ; then
+	/usr/bin/env find ${VENV_PATH} -iname '*.pyc' -delete
+	/usr/bin/env find ${VENV_PATH} -iname '*.pyo' -delete
 	${VENV_PATH}/bin/python -m compileall ${VENV_PATH}
 fi
