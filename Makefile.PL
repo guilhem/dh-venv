@@ -11,8 +11,6 @@ install_vendor:: extra_install
 extra_install:
 	install -d $(DESTDIR)/usr/share/debhelper/autoscripts
 	install -m 640 autoscripts/* $(DESTDIR)/usr/share/debhelper/autoscripts
-	install -d $(DESTDIR)/usr/share/dh-venv/
-	install -m 644 templates/python.tmpl $(DESTDIR)/usr/share/dh-venv/python.tmpl
 END_OF_MAKEFILE
 
 WriteAll;
