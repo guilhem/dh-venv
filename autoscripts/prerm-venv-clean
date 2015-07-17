@@ -1,4 +1,4 @@
 VENV_PATH=/usr/share/python/#PACKAGE#
 if [ -d ${VENV_PATH} ] && [ -x "`which find 2>/dev/null`" ] ; then
-	find ${VENV_PATH} -name \*.pyc -delete
+	find ${VENV_PATH} -name '*.py[co]' -delete
 fi
