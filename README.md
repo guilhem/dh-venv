@@ -53,4 +53,6 @@ Some global variables can be used to customize / extend `dh-venv`:
 | `DH_VENV_PKG` | Package where virtualenv will be put | single_word | package source name |
 | `DH_VENV_REQUIREMENT_FILE` | requirement file to install | single_word | `requirements.txt` |
 | `DH_VENV_CREATE` | options to pass at creation of `virtualenv` | value,comma,separated | `--no-site-packages` |
+| `DH_VENV_PIP_INSTALL_REQUIREMENTS` | options to pip when installing requirements | values,comma,separated | |
+| `DH_VENV_PIP_INSTALL` | options to pip when installing package | values,comma,separated | |
 | `DH_VENV_ROOT_PATH` | Root path for destination application | single_word | ``/usr/share/python` |
