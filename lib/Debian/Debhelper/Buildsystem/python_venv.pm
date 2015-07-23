@@ -15,8 +15,8 @@ use Env qw(DH_VENV_REQUIREMENT_FILE
 use base 'Debian::Debhelper::Buildsystem';
 
 my @DH_VENV_CREATE = split( /,/, $DH_VENV_CREATE );
-my @DH_VENV_PIP_INSTALL_REQUIREMENTS = split( /,/, $DH_VENV__PIP_INSTALL_REQUIREMENTS );
-my @DH_VENV_PIP_INSTALL = split( /,/, $DH_VENV__PIP_INSTALL );
+my @DH_VENV_PIP_INSTALL_REQUIREMENTS = split( /,/, $DH_VENV_PIP_INSTALL_REQUIREMENTS );
+my @DH_VENV_PIP_INSTALL = split( /,/, $DH_VENV_PIP_INSTALL );
 
 if ( defined $ENV{DH_VERBOSE} && $ENV{DH_VERBOSE} ne "" ) {
     $ENV{PIP_VERBOSE} = 'true';
