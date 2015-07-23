@@ -1,3 +1,10 @@
+dh-venv (0.9.0) unstable; urgency=medium
+
+  * Yet another way... with virtualenv --relocatable
+  * Add 2 new options for pip on install
+
+ -- Guilhem Lettron <guilhem@lettron.fr>  Thu, 23 Jul 2015 11:48:38 +0200
+
 dh-venv (0.8.2) unstable; urgency=medium
 
   * Use PYTHONHOME for wrapper

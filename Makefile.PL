@@ -1,7 +1,7 @@
 use inc::Module::Install;
 
 name 'dh-venv';
-version '0.8.2';
+version '0.9.0';
 
 postamble <<'END_OF_MAKEFILE';
 install:: extra_install
